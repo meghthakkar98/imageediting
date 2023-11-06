@@ -157,23 +157,27 @@ function updateSliderAndValue(filterId) {
 
 
 save.addEventListener("click", () => {
-    let canvas = document.createElement("canvas");
-    let ctx = canvas.getContext("2d");
-    canvas.width = imgSrc.naturalWidth;
-    canvas.height = imgSrc.naturalHeight;
-    ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) invert(${invert}%) blur(${blur}px) grayscale(${grayscale}%)`;
+  let canvas = document.createElement("canvas");
+  let ctx = canvas.getContext("2d");
+  
+  // Set canvas size to the image size
+  canvas.width = imgSrc.naturalWidth;
+  canvas.height = imgSrc.naturalHeight;
+  
+  // Translate and rotate around the center
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(rotate * Math.PI / 180);
+  ctx.scale(flip_x, flip_y); // Apply flip transformations
+  ctx.translate(-canvas.width / 2, -canvas.height / 2); // Move back to the top left
+  
+  ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) invert(${invert}%) blur(${blur}px) grayscale(${grayscale}%)`;
+  ctx.drawImage(imgSrc, 0, 0, canvas.width, canvas.height);
 
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.scale(flip_x, flip_y);
-    ctx.drawImage(
-      imgSrc,
-      -canvas.width / 2,
-      -canvas.height / 2,
-      canvas.width,
-      canvas.height
-    );
-    const link = document.createElement("a");
-    link.download = "image.jpg";
-    link.href = canvas.toDataURL();
-    link.click();
+  // Convert canvas to image and trigger download
+  const link = document.createElement("a");
+  link.download = "edited_image.jpg";
+  link.href = canvas.toDataURL("image/jpeg");
+  link.click();
 });
+
+
