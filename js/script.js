@@ -160,24 +160,33 @@ save.addEventListener("click", () => {
   let canvas = document.createElement("canvas");
   let ctx = canvas.getContext("2d");
   
-  // Set canvas size to the image size
+  
   canvas.width = imgSrc.naturalWidth;
   canvas.height = imgSrc.naturalHeight;
   
-  // Translate and rotate around the center
+  
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate(rotate * Math.PI / 180);
-  ctx.scale(flip_x, flip_y); // Apply flip transformations
-  ctx.translate(-canvas.width / 2, -canvas.height / 2); // Move back to the top left
+  ctx.scale(flip_x, flip_y); 
+  ctx.translate(-canvas.width / 2, -canvas.height / 2); 
   
   ctx.filter = `brightness(${brightness}%) contrast(${contrast}%) saturate(${saturate}%) invert(${invert}%) blur(${blur}px) grayscale(${grayscale}%)`;
   ctx.drawImage(imgSrc, 0, 0, canvas.width, canvas.height);
 
-  // Convert canvas to image and trigger download
+  
   const link = document.createElement("a");
   link.download = "edited_image.jpg";
   link.href = canvas.toDataURL("image/jpeg");
   link.click();
 });
 
+// Selecting the dark mode toggle button
+let darkModeToggle = document.querySelector(".dark-mode-toggle");
 
+// Adding an event listener to the button for the click event
+darkModeToggle.addEventListener("click", () => {
+  // Toggling the 'dark-theme' class on the body
+  document.body.classList.toggle("dark-theme");
+
+  
+});
