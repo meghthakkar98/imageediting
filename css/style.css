@@ -159,10 +159,7 @@ button{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.icons_filter .icons_room button:hover {
-    background-color: #ffea00;
-    color: #000;
-}
+
 .icons_room button img{
     width: 20px;
 }
